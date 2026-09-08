@@ -1,0 +1,9 @@
+Modbus Client
+      │
+      │ TCP Request
+      ▼
+Modbus TCP Server
+      │
+      │ Register Response
+      ▼
+Modbus Client
