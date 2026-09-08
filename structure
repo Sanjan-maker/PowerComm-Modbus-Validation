@@ -1,0 +1,34 @@
+PowerComm-Modbus-Validation/
+│
+├── device_simulator/
+│   ├── __init__.py
+│   ├── electrical_device.py
+│   └── modbus_server.py
+│
+├── client/
+│   ├── __init__.py
+│   ├── modbus_client.py
+│   └── register_decoder.py
+│
+├── validation/
+│   ├── __init__.py
+│   └── validation_engine.py
+│
+├── testing/
+│   ├── __init__.py
+│   ├── functional_tests.py
+│   ├── negative_tests.py
+│   └── performance_tests.py
+│
+├── tests/
+│   ├── test_connection.py
+│   └── test_registers.py
+│
+├── logger/
+│   └── protocol_logger.py
+│
+├── data/
+│
+├── .gitignore
+├── README.md
+└── requirements.txt
