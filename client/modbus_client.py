@@ -129,9 +129,7 @@ class ModbusElectricalClient:
                     response_time_ms
                 )
 
-            # --------------------------------------------------
-            # CHECK REGISTER COUNT
-            # --------------------------------------------------
+           
 
             if (
                 not hasattr(response, "registers")
