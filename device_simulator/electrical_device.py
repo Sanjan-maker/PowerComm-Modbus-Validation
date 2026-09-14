@@ -123,18 +123,13 @@ class ElectricalDevice:
                 self.breaker_status,
         }
 
-    # ======================================================
-    # BREAKER
-    # ======================================================
+   
 
     def set_breaker(self, state):
 
         self.breaker_status = bool(state)
 
-    # ======================================================
-    # PRINT
-    # ======================================================
-
+   
     def print_measurements(self):
 
         measurements = (
