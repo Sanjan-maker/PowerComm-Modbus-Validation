@@ -20,24 +20,21 @@ class ProtocolTestServer:
 
     def __init__(self):
 
-        # ==================================================
+      
         # ELECTRICAL DEVICE SIMULATION
-        # ==================================================
-
+       
         self.electrical_device = ElectricalDevice()
 
-        # ==================================================
+      
         # INPUT REGISTERS
-        # ==================================================
-        #
+    
+    
         # 1000 -> Voltage
         # 1001 -> Current
         # 1002 -> Frequency
         # 1003 -> Power Factor
         # 1004 -> Active Power
-        #
-        # These values will be continuously updated.
-        # ==================================================
+        
 
         self.input_registers = SimData(
             address=START_ADDRESS,
@@ -53,16 +50,11 @@ class ProtocolTestServer:
             readonly=True,
         )
 
-        # ==================================================
-        # COILS
-        # ==================================================
-        #
+       
+        
         # Coil 1 -> Breaker Command
-        #
-        # IMPORTANT:
-        # Use a list for BITS data.
-        # ==================================================
-
+        
+       
         self.coils = SimData(
             address=1,
             count=1,
@@ -71,12 +63,9 @@ class ProtocolTestServer:
             readonly=False,
         )
 
-        # ==================================================
-        # DISCRETE INPUTS
-        # ==================================================
-        #
+      
         # Discrete Input 1 -> Breaker Status
-        # ==================================================
+       
 
         self.discrete_inputs = SimData(
             address=1,
@@ -86,9 +75,9 @@ class ProtocolTestServer:
             readonly=True,
         )
 
-        # ==================================================
+      
         # HOLDING REGISTERS
-        # ==================================================
+        
 
         self.holding_registers = SimData(
             address=1,
@@ -98,10 +87,9 @@ class ProtocolTestServer:
             readonly=False,
         )
 
-        # ==================================================
+       
         # MODBUS DEVICE
-        # ==================================================
-
+     
         self.device = SimDevice(
             id=DEVICE_ID,
             simdata=(
@@ -112,17 +100,18 @@ class ProtocolTestServer:
             ),
         )
 
-        # ==================================================
+      
         # THREAD CONTROL
-        # ==================================================
+       
 
         self.running = True
 
         self.lock = threading.Lock()
 
-    # ======================================================
+    
     # ENCODE ENGINEERING VALUES
-    # ======================================================
+    
+   
 
     def encode_measurements(self):
 
@@ -130,15 +119,11 @@ class ProtocolTestServer:
             self.electrical_device.get_measurements()
         )
 
-        # ----------------------------------------------
-        # Voltage
-        #
+        
         # Engineering value:
         #     230.5 V
-        #
-        # Modbus raw value:
-        #     2305
-        # ----------------------------------------------
+        
+        
 
         voltage = int(
             round(
@@ -146,15 +131,7 @@ class ProtocolTestServer:
             )
         )
 
-        # ----------------------------------------------
-        # Current
-        #
-        # Engineering value:
-        #     10.00 A
-        #
-        # Modbus raw value:
-        #     1000
-        # ----------------------------------------------
+       
 
         current = int(
             round(
@@ -162,31 +139,14 @@ class ProtocolTestServer:
             )
         )
 
-        # ----------------------------------------------
-        # Frequency
-        #
-        # Engineering value:
-        #     50.00 Hz
-        #
-        # Modbus raw value:
-        #     5000
-        # ----------------------------------------------
-
+       
         frequency = int(
             round(
                 measurements["frequency"] * 100
             )
         )
 
-        # ----------------------------------------------
-        # Power Factor
-        #
-        # Engineering value:
-        #     0.920
-        #
-        # Modbus raw value:
-        #     920
-        # ----------------------------------------------
+        
 
         power_factor = int(
             round(
@@ -194,15 +154,7 @@ class ProtocolTestServer:
             )
         )
 
-        # ----------------------------------------------
-        # Active Power
-        #
-        # Engineering value:
-        #     2116.0 W
-        #
-        # Modbus raw value:
-        #     21160
-        # ----------------------------------------------
+        
 
         active_power = int(
             round(
@@ -218,37 +170,26 @@ class ProtocolTestServer:
             active_power,
         ]
 
-    # ======================================================
-    # UPDATE MODBUS DATA
-    # ======================================================
-
+   
     def update_device_data(self):
 
         with self.lock:
 
-            # ------------------------------------------
-            # UPDATE ELECTRICAL SIMULATION
-            # ------------------------------------------
+           
 
             self.electrical_device.update_measurements()
 
-            # ------------------------------------------
-            # GET NEW RAW VALUES
-            # ------------------------------------------
+           
 
             raw_values = self.encode_measurements()
 
-            # ------------------------------------------
-            # UPDATE INPUT REGISTERS
-            # ------------------------------------------
+           
 
             for index, value in enumerate(raw_values):
 
                 self.input_registers.values[index] = value
 
-            # ------------------------------------------
-            # UPDATE BREAKER STATUS
-            # ------------------------------------------
+            
 
             breaker_status = (
                 self.electrical_device.breaker_status
@@ -258,9 +199,7 @@ class ProtocolTestServer:
                 1 if breaker_status else 0
             )
 
-    # ======================================================
-    # CONTINUOUS SIMULATION LOOP
-    # ======================================================
+   
 
     def simulation_loop(self):
 
@@ -275,9 +214,6 @@ class ProtocolTestServer:
 
                 self.update_device_data()
 
-                # --------------------------------------
-                # DEBUG OUTPUT
-                # --------------------------------------
 
                 measurements = (
                     self.electrical_device
@@ -303,10 +239,7 @@ class ProtocolTestServer:
 
                 time.sleep(1)
 
-    # ======================================================
-    # START SERVER
-    # ======================================================
-
+   
     def start(self):
 
         print("=" * 60)
@@ -321,10 +254,7 @@ class ProtocolTestServer:
         print()
         print("Dynamic electrical simulation enabled.")
 
-        # ==================================================
-        # REGISTER MAP
-        # ==================================================
-
+       
         print()
         print("INPUT REGISTERS")
         print("-" * 40)
@@ -347,19 +277,13 @@ class ProtocolTestServer:
 
         print("1 -> Breaker Status")
 
-        # ==================================================
-        # INITIAL UPDATE
-        # ==================================================
-
+       
         print()
         print("Initializing electrical measurements...")
 
         self.update_device_data()
 
-        # ==================================================
-        # START SIMULATION THREAD
-        # ==================================================
-
+      
         simulation_thread = threading.Thread(
             target=self.simulation_loop,
             daemon=True,
@@ -374,19 +298,14 @@ class ProtocolTestServer:
         print("Press CTRL+C to stop.")
         print()
 
-        # ==================================================
-        # START MODBUS TCP SERVER
-        # ==================================================
+       
 
         StartTcpServer(
             context=self.device,
             address=(HOST, PORT),
         )
 
-    # ======================================================
-    # STOP SERVER
-    # ======================================================
-
+  
     def stop(self):
 
         self.running = False
@@ -395,9 +314,6 @@ class ProtocolTestServer:
         print("Simulation stopped.")
 
 
-# ==========================================================
-# MAIN
-# ==========================================================
 
 if __name__ == "__main__":
 
