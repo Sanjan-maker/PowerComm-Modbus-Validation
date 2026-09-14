@@ -36,9 +36,7 @@ class ModbusElectricalClient:
 
         self.connected = False
 
-    # ==================================================
-    # CONNECT
-    # ==================================================
+  
 
     def connect(self):
 
@@ -76,10 +74,7 @@ class ModbusElectricalClient:
 
             return False
 
-    # ==================================================
-    # DISCONNECT
-    # ==================================================
-
+   
     def disconnect(self):
 
         if self.client:
@@ -92,10 +87,7 @@ class ModbusElectricalClient:
 
         self.connected = False
 
-    # ==================================================
-    # READ INPUT REGISTERS
-    # ==================================================
-
+  
     def read_input_registers(self):
 
         if not self.connected:
@@ -180,9 +172,7 @@ class ModbusElectricalClient:
                 response_time_ms
             )
 
-    # ==================================================
-    # DECODE
-    # ==================================================
+   
 
     def decode(self, registers):
 
@@ -191,9 +181,7 @@ class ModbusElectricalClient:
             start_address=START_ADDRESS
         )
 
-    # ==================================================
-    # VALIDATE VOLTAGE
-    # ==================================================
+    
 
     def validate_voltage(
         self,
@@ -213,9 +201,7 @@ class ModbusElectricalClient:
             unit="V"
         )
 
-    # ==================================================
-    # VALIDATE CURRENT
-    # ==================================================
+   
 
     def validate_current(
         self,
@@ -235,10 +221,7 @@ class ModbusElectricalClient:
             unit="A"
         )
 
-    # ==================================================
-    # VALIDATE FREQUENCY
-    # ==================================================
-
+   
     def validate_frequency(
         self,
         decoded_values
@@ -257,9 +240,7 @@ class ModbusElectricalClient:
             unit="Hz"
         )
 
-    # ==================================================
-    # VALIDATE POWER FACTOR
-    # ==================================================
+   
 
     def validate_power_factor(
         self,
@@ -279,10 +260,7 @@ class ModbusElectricalClient:
             unit=""
         )
 
-    # ==================================================
-    # VALIDATE ACTIVE POWER
-    # ==================================================
-
+   
     def validate_active_power(
         self,
         decoded_values
@@ -301,10 +279,7 @@ class ModbusElectricalClient:
             unit="W"
         )
 
-    # ==================================================
-    # RUN VALIDATION
-    # ==================================================
-
+   
     def run_register_validation(
         self,
         decoded_values
@@ -344,10 +319,7 @@ class ModbusElectricalClient:
 
         return results
 
-    # ==================================================
-    # LOG RESULTS
-    # ==================================================
-
+   
     def log_results(
         self,
         results,
@@ -376,9 +348,7 @@ class ModbusElectricalClient:
                 error_message=result.error_message
             )
 
-    # ==================================================
-    # READ + DECODE + VALIDATE
-    # ==================================================
+  
 
     def read_and_validate(self):
 
@@ -419,10 +389,7 @@ class ModbusElectricalClient:
                 response_time_ms,
         }
 
-    # ==================================================
-    # CONTINUOUS MONITORING
-    # ==================================================
-
+    
     def monitor(
         self,
         interval=1
@@ -511,9 +478,7 @@ class ModbusElectricalClient:
             self.disconnect()
 
 
-# ==========================================================
-# MAIN
-# ==========================================================
+
 
 def main():
 
