@@ -112,9 +112,7 @@ class ModbusElectricalClient:
                 time.perf_counter() - start_time
             ) * 1000
 
-            # --------------------------------------------------
-            # MODBUS ERROR
-            # --------------------------------------------------
+
 
             if response.isError():
 
